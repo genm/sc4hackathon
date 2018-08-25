@@ -55,18 +55,13 @@ def DoRegisterTitle(t_owner, orig_title):
     # とりあえず，省く
 
     ## 称号が存在しないかチェック
-    if Get(context, t_owner + orig_title + b'name'):
+    if Get(context, concat( t_owner , concat( orig_title , b'name'))):
         # 存在したら，エラー
         return False
     else:
         # 存在しない場合，称号を登録する
-        #Put(context, t_owner + orig_title + b'name', orig_title)
-        Put(context, b'name', t_owner + orig_title + 'name')
-        print('success')
-        print(t_owner)
-        print(orig_title)
-        print('success')
-        Put(context, t_owner + orig_title + b'amount', 100) # 支払われたGas(NEO)に対応した量にする
+        Put(context, concat( t_owner , concat( orig_title , b'name')), orig_title)
+        Put(context, concat( t_owner , concat( orig_title , b'amount')), 100) # 支払われたGas(NEO)に対応した量にする
 
     return True
 
@@ -89,14 +84,14 @@ def DoGiveTitle(t_owner, t_receiver, orig_title):
     context = GetContext()
 
     # すでに称号を持っていないかチェック
-    if Get(context, t_receiver + orig_title + b'name'):
+    if Get(context, concat(t_receiver , concat( orig_title , b'name'))):
         # すでに持っていたら
         return False
     else:
         # 持っていなかったら
-        current_balance = Get(context, t_owner + orig_title + b'amount')
-        Put(context, t_owner + orig_title + b'amount', current_balance - 1)
-        Put(context, t_receiver + orig_title + b'name', orig_title)
+        current_balance = Get(context, concat( t_owner , concat(orig_title , b'amount')))
+        Put(context, concat(t_owner , concat( rig_title , b'amount')), current_balance - 1)
+        Put(context, concat(t_receiver , concat( orig_title , b'name')), orig_title)
 
     return True
 
@@ -118,10 +113,10 @@ def DoIncreaseTitleAmount(t_owner, orig_title, amount):
     context = GetContext()
 
     ## 称号が存在するかチェック
-    if Get(context, t_owner + orig_title + b'name'):
+    if Get(context, concat( t_owner , concat( orig_title , b'name'))):
         # 存在したら，増やす
-        current_balance = Get(context, t_owner + orig_title + b'amount')
-        Put(context, t_owner + orig_title + b'amount', current_balance - 100)   # 支払われたGas(Neo)に対応した量を増やす
+        current_balance = Get(context, concat( t_owner , concat( orig_title , b'amount')))
+        Put(context, concat( t_owner , concat( orig_title , b'amount')), current_balance - 100)   # 支払われたGas(Neo)に対応した量を増やす
     else:
         # 存在しない場合，エラー
         return False

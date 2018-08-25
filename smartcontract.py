@@ -56,7 +56,7 @@ def Main(operation, args):
     elif trigger == Application():
         for op in NEP5_METHODS:
             if operation == op:
-                return handle_titles(ctx, operation, args)
+                return handle_titles(context, operation, args)
 
         if operation == 'deploy':
             deploy()

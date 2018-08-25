@@ -96,7 +96,7 @@ def DoGiveTitle(t_owner, t_receiver, orig_title):
         current_balance = Get(context, concat( t_owner , concat(orig_title , b'amount')))
         if current_balance == 0 :
             return False
-        Put(context, concat(t_owner , concat( rig_title , b'amount')), current_balance - 1)
+        Put(context, concat(t_owner , concat( orig_title , b'amount')), current_balance - 1)
         Put(context, concat(t_receiver , concat( orig_title , b'name')), orig_title)
 
     return True
@@ -122,7 +122,7 @@ def DoIncreaseTitleAmount(t_owner, orig_title, amount):
     if Get(context, concat( t_owner , concat( orig_title , b'name'))):
         # 存在したら，増やす
         attachments = get_asset_attachments()
-        if attachments[3] < 500:
+        if attachments[3] < 500 :
             return False
         amount = get_amount_increese(attachments[3])
         current_balance = Get(context, concat( t_owner , concat( orig_title , b'amount')))
@@ -134,8 +134,10 @@ def DoIncreaseTitleAmount(t_owner, orig_title, amount):
     return True
 
 def get_amount_register( attachment ):
-    return round((attachment - 500) * 10)
+    attachment = attachment // 1 
+    return (attachment - 500) * 10
 
-def  get_amount_increese(attachment)
-    return round(attachment * 10)
+def get_amount_increese(attachment):
+    attachment = attachment // 1 
+    return attachment * 10
 

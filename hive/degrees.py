@@ -23,11 +23,10 @@ def handle_degrees(context, operation, args):
         return False
 
     elif operation == 'increaseDegreeAmount':
-        if len(args) == 3:
+        if len(args) == 2:
             t_owner = args[0]
             orig_degree = args[1]
-            amount = args[2]
-            increase = DoIncreaseDegreeAmount(t_owner, orig_degree, amount)
+            increase = DoIncreaseDegreeAmount(t_owner, orig_degree)
             return increase
         return False
 
@@ -107,7 +106,7 @@ def DoGiveDegree(t_owner, t_receiver, orig_degree):
 
     return True
 
-def DoIncreaseDegreeAmount(t_owner, orig_degree, amount):
+def DoIncreaseDegreeAmount(t_owner, orig_degree):
     """
     Method to register a degree
 
@@ -134,7 +133,6 @@ def DoIncreaseDegreeAmount(t_owner, orig_degree, amount):
         current_balance = Get(context, concat( t_owner , concat( orig_degree , b'amount')))
         Put(context, concat( t_owner , concat( orig_degree , b'amount')), current_balance + amount)
     else:
-        # 存在しない場合，エラー
         return False
 
     return True

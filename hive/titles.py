@@ -60,8 +60,12 @@ def DoRegisterTitle(t_owner, orig_title):
         return False
     else:
         # 存在しない場合，称号を登録する
+        attachments = get_asset_attachments()
+        if attachments[3] < 500:
+            return False
+        amount = get_amount_register(attachments[3])
         Put(context, concat( t_owner , concat( orig_title , b'name')), orig_title)
-        Put(context, concat( t_owner , concat( orig_title , b'amount')), 100) # 支払われたGas(NEO)に対応した量にする
+        Put(context, concat( t_owner , concat( orig_title , b'amount')), amount) # 支払われたGas(NEO)に対応した量にする
 
     return True
 
@@ -90,6 +94,8 @@ def DoGiveTitle(t_owner, t_receiver, orig_title):
     else:
         # 持っていなかったら
         current_balance = Get(context, concat( t_owner , concat(orig_title , b'amount')))
+        if current_balance == 0 :
+            return False
         Put(context, concat(t_owner , concat( rig_title , b'amount')), current_balance - 1)
         Put(context, concat(t_receiver , concat( orig_title , b'name')), orig_title)
 
@@ -115,10 +121,21 @@ def DoIncreaseTitleAmount(t_owner, orig_title, amount):
     ## 称号が存在するかチェック
     if Get(context, concat( t_owner , concat( orig_title , b'name'))):
         # 存在したら，増やす
+        attachments = get_asset_attachments()
+        if attachments[3] < 500:
+            return False
+        amount = get_amount_increese(attachments[3])
         current_balance = Get(context, concat( t_owner , concat( orig_title , b'amount')))
-        Put(context, concat( t_owner , concat( orig_title , b'amount')), current_balance - 100)   # 支払われたGas(Neo)に対応した量を増やす
+        Put(context, concat( t_owner , concat( orig_title , b'amount')), current_balance + amount)   # 支払われたGas(Neo)に対応した量を増やす
     else:
         # 存在しない場合，エラー
         return False
 
     return True
+
+def get_amount_register( attachment ):
+    return round((attachment - 500) * 10)
+
+def  get_amount_increese(attachment)
+    return round(attachment * 10)
+

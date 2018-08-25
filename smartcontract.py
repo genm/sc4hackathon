@@ -1,5 +1,5 @@
 from hive.txio import get_asset_attachments
-from hive.titles import *
+from hive.degrees import *
 from boa.interop.Neo.Runtime import Log, GetTrigger, CheckWitness
 from boa.interop.Neo.Action import RegisterAction
 from boa.interop.Neo.TriggerType import Application, Verification
@@ -13,7 +13,7 @@ from boa.builtins import concat
 OWNER = b'#\xba\'\x03\xc52c\xe8\xd6\xe5"\xdc2 39\xdc\xd8\xee\xe9'
 # Script hash of the contract owner
 
-TITLES = ['registerTitle','giveTitle','increaseTitleAmount']
+DEGREES = ['registerDegree','giveDegree','increaseDegreeAmount']
 
 # -------------------------------------------
 # Events
@@ -54,9 +54,9 @@ def Main(operation, args):
 
     # 'Application' mode is the main body of the smart contract
     elif trigger == Application():
-        for op in TITLES:
+        for op in DEGREES:
             if operation == op:
-                return handle_titles(context, operation, args)
+                return handle_degrees(context, operation, args)
 
         if operation == 'deploy':
             deploy()

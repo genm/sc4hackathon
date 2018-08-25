@@ -4,7 +4,7 @@ from boa.interop.Neo.Action import RegisterAction
 from boa.interop.Neo.Storage import *
 from boa.builtins import concat
 
-def handle_titles(ctx, operation, args):
+def handle_titles(context, operation, args):
     if operation == 'registerTitle':
         if len(args) == 2:
             t_owner = args[0]
@@ -60,7 +60,12 @@ def DoRegisterTitle(t_owner, orig_title):
         return False
     else:
         # 存在しない場合，称号を登録する
-        Put(context, t_owner + orig_title + b'name', orig_title)
+        #Put(context, t_owner + orig_title + b'name', orig_title)
+        Put(context, b'name', t_owner + orig_title + 'name')
+        print('success')
+        print(t_owner)
+        print(orig_title)
+        print('success')
         Put(context, t_owner + orig_title + b'amount', 100) # 支払われたGas(NEO)に対応した量にする
 
     return True

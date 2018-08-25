@@ -54,7 +54,7 @@ def Main(operation, args):
 
     # 'Application' mode is the main body of the smart contract
     elif trigger == Application():
-        for op in NEP5_METHODS:
+        for op in TITLES:
             if operation == op:
                 return handle_titles(context, operation, args)
 
